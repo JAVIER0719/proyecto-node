@@ -3,12 +3,11 @@ const express = require('express')
 const jwt=require('jsonwebtoken');
 const nodemailer=require('nodemailer');
 const router = express.Router()
+require('dotenv').config();
 //llamamos archivos
 const connection = require('../connection')
-
-
-
-require('dotenv').config();
+var auth = require('../services/authentication.js')
+var checkRole= require('../services/checkRole.js')
 
 //insertar datos
 router.post('/signup', (req, res)=>{
@@ -125,7 +124,7 @@ connection.query(query,[user.email], (err, result)=>{
 
 
 
-router.get('/get', (req, res)=>{
+router.get('/get', auth.authenticateToken, checkRole.checkRole, (req, res)=>{
     //consulta
     var query = "select id, name, email, status, from users where role='user";
     connection.query(query, (err, result)=>{
@@ -138,7 +137,7 @@ router.get('/get', (req, res)=>{
 })
 
 
-router.patch('/update', (req, res)=>{
+router.patch('/update', auth.authenticateToken, (req, res)=>{
     let user = req.body
     var query ="update users set status=? where id=?"
     connection.query(query, [user.status, user.id], (err, result)=>{
@@ -155,7 +154,7 @@ router.patch('/update', (req, res)=>{
 
 
 //chequiar que este activo el usuario
-router.get('/checkToken', (req, res)=>{
+router.get('/checkToken',checkRole.checkRole, (req, res)=>{
     return res.status(200).json({message:"true"})
 })
 
