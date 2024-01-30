@@ -104,7 +104,7 @@ connection.query(query,[user.email], (err, result)=>{
                 from: process.env.EMAIL,
                 to:result[0].email,
                 subje:'The chart- recuperación de acceso',
-                html:'<p><b>Tus credencialesdel sistema son los siguientes<br/>EMAIL: </b>'+result[0].email+'<br/><b>Clave:</b>'+result[0].password+'<br/><a href="localhost3000">Click para acceder a el sistema</a></p>'
+                html:'<p><b>Tus credencialesdel sistema son los siguientes<br/>EMAIL: </b>'+result[0].email+'<br/><b>Clave:</b>'+result[0].password+'<br/><a href="localhost:3000">Click para acceder a el sistema</a></p>'
             };
             transportar.sendMail(mailOption, (error, info)=>{
                 if(error){
@@ -156,6 +156,44 @@ router.patch('/update', auth.authenticateToken, (req, res)=>{
 //chequiar que este activo el usuario
 router.get('/checkToken',checkRole.checkRole, (req, res)=>{
     return res.status(200).json({message:"true"})
+})
+
+
+
+router.post('/changePassword', auth.authenticateToken, (req, res)=>{
+    //obtiene los valores escritos por el usuario
+    const user= req.body;
+    //obtiene el email escrito por el usuario
+    const email= res.locals.email;
+    //hago la consulta parametrada
+    var query= "select * from users where email=? and password=?";
+//meto los datos parametrados
+    connection.query(query, [email, user.oldPassword], (err, results)=>{
+        if(!err){
+            //si no hay error haara condiciones
+            if(results.length <= 0){
+                //si el resultado no es igual a 0
+                return res.status(400).json({message: "incorrec old password"});
+            }else if(results[0].password == user.oldPassword){
+                //si el password de la bd es igual a que se consulta
+                query= "update users set password=? where email=?";
+                //hara el proceso para actualizar
+                connection.query(query,[user.newPassword, email], (err, result)=>{
+                    //con el nuevo dato ingresado por el usuairo newPassword
+                    if(!err){
+                        return res.status(200).json({message:"password update successfully"})
+                    }else{
+                        return res.status(500).json(err);
+                    }
+                })
+            }else{
+                return res.status(400).json({message: "something went wrong, please try againt later"})
+            }
+        }else{
+            //marca el error
+            return res.status(500).json(err);
+        }
+    })
 })
 
 module.exports=router;

@@ -5,6 +5,9 @@ const cors = require('cors');
 //llamamos archivos
 const connection =require ('./connection.js');
 const user= require('./routes/user.js');
+const categoryRoute= require('./routes/category.js');
+const productRoute= require('./routes/product.js');
+
 
 //configuramos los modulos
 const app =express();
@@ -16,6 +19,9 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 //esto hace una comparacion
 app.use('/user', user)
+app.use('/category', categoryRoute)
+app.use('/product', productRoute)
+
 
 
 module.exports=app;
