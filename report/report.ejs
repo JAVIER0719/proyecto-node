@@ -1,0 +1,59 @@
+
+<html lang="es">
+  <head>
+   
+    <title>Modelo de facturas</title>
+    <style>
+    table{
+      font-family:Arial, Helvetica,sans-serif;
+      border-collapse:collapse;
+      width:100%;
+    }
+    td,
+    th{
+      border:1px solid #000;
+      text-align:left;
+      paddin:8px;
+    }
+      </style>
+  </head>
+  <body>
+    <h3 style="text-align: center">Sistema de gestíon de chart</h3>
+    <table>
+      <tr>
+        <th>Nombre: <%= name %></th>
+
+        <th>Nombre: <%= email %></th>
+      </tr>
+      <tr>
+        <th>contacto: <%= contact %></th>
+
+        <th>metodo de pago: <%= paymentMethod %></th>
+      </tr>
+    </table>
+    <h3>Detalle de producto</h3>
+    <table>
+      <tr>
+        <td>Nombre</td>
+        <td>Categoria</td>
+        <td>Cantidad</td>
+        <td>Precio</td>
+        <td>Sub total</td>
+      </tr>
+      <% if (productDetails.length >0){%> <% productDetails.forEach(product=>{%>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= product.category %></td>
+        <td><%= product.quantity %></td>
+        <td><%= product.price %></td>
+        <td><%= product.total%></td>
+      </tr>
+
+      <% }); %> <% }; %>
+    </table>
+
+    <h3>Total: <%= totalAmount %></h3>
+    <br />
+    <h3>Gracias por preferirnos, te esperamos pronto</h3>
+  </body>
+</html>

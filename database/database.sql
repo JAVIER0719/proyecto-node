@@ -24,6 +24,19 @@ create table product(
     primary key (id)
 );
 
+create table bill(
+    id int not null AUTO_INCREMENT,/**/
+    uuid varchar(200)not null,/*aid aleatoria de lo que se constuye*/
+    name varchar(255)not null,/**/
+    email varchar(100) not null,/**/
+    contact varchar(20) not null,/**/
+    paymentMethod varchar(50) not null,/*metodo de pago*/
+    total int not null,/**/
+    productDetails JSON DEFAULT null,/*detalles del producto*/
+    createdBy varchar(100) not null,/*creado por(quien ha creado la factura)*/
+    primary key (id)/**/
+);
+
 insert into users(name, contact, email, password,status,role)
 value('chart', '89779','javier@gmail.com', 'admin123','true','admin');
 

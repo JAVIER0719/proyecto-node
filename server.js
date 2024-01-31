@@ -15,5 +15,6 @@ jsonwebtoken, nodemailer
 //utilizar la opcion de cripto
 //require(cripto).randomBytes('puede variar 128, 64, 204').toString('hex')
 
+npm i ejs html-pdf path uuid
 
 */

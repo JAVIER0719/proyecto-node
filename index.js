@@ -7,6 +7,7 @@ const connection =require ('./connection.js');
 const user= require('./routes/user.js');
 const categoryRoute= require('./routes/category.js');
 const productRoute= require('./routes/product.js');
+const billRoute= require('./routes/bill.js');
 
 
 //configuramos los modulos
@@ -21,6 +22,7 @@ app.use(express.json())
 app.use('/user', user)
 app.use('/category', categoryRoute)
 app.use('/product', productRoute)
+app.use('/bill', billRoute)
 
 
 
